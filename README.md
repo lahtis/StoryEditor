@@ -1,4 +1,15 @@
 <h1>StoryEditor</h1>
-Let's try to study if this idea can ever be done.
+Let's try to study if this reflections can ever be done.
+
+The purpose of the program would be to facilitate the development of game design in story games.
+
+* Name generator....
+* Family tree generator / family map...
+* Story, plot...
+* Quests editor...
+
+All these under one program. Maybe use some database...
+
+
 
 Story editor application developed with C and GTK 3 in Linux.
