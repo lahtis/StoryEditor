@@ -144,7 +144,7 @@ void on_nameGeneratorBtn_clicked(GtkDialog *dialog, gint response_id, app_widget
 	const char* middlenamesMen[2] = {"Kustaa", "Vihtori",};
 		
 	// The most 50 common family names is 1939–1958 at Finland.
-	const char* lastname[50] = { "Virtanen", Nieminen", "Mäkinen", "Laine", "Korhonen", "Koskinen", "Järvinen", "Mäkelä", "Hämäläinen", "Lehtinen", "Lehtonen", "Salminen", "Heinonen", "Saarinen", "Niemi", "Tuominen", "Salonen", "Heikkinen", "Rantanen", "Salo", "Jokinen", "Aaltonen", "Laitinen", "Turunen", "Johansson", "Lahtinen", "Heikkilä", "Laaksonen", "Karjalainen", "Kinnunen", "Ahonen", "Savolainen", "Laakso", "Toivonen", "Mattila", "Miettinen", "Leppänen", "Aalto", "Nurmi", "Hiltunen", "Lehto", "Leinonen", "Peltonen", "Väisänen", "Kallio", "Hakala", "Lindholm", "Ojala", "Manninen", "Karlsson",}
+	const char* lastname[50] = { "Virtanen", "Nieminen", "Mäkinen", "Laine", "Korhonen", "Koskinen", "Järvinen", "Mäkelä", "Hämäläinen", "Lehtinen", "Lehtonen", "Salminen", "Heinonen", "Saarinen", "Niemi", "Tuominen", "Salonen", "Heikkinen", "Rantanen", "Salo", "Jokinen", "Aaltonen", "Laitinen", "Turunen", "Johansson", "Lahtinen", "Heikkilä", "Laaksonen", "Karjalainen", "Kinnunen", "Ahonen", "Savolainen", "Laakso", "Toivonen", "Mattila", "Miettinen", "Leppänen", "Aalto", "Nurmi", "Hiltunen", "Lehto", "Leinonen", "Peltonen", "Väisänen", "Kallio", "Hakala", "Lindholm", "Ojala", "Manninen", "Karlsson",}
 	
     	for (i=0;i<14;i++) {
 
