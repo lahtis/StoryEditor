@@ -18,6 +18,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
 #include <sqlite3.h>
 #include <gtk/gtk.h>
 
@@ -34,6 +38,7 @@ typedef struct {
 	GtkWidget *w_aboutWindow; // Pointer to about dialog box
 } 	app_widgets;
 
+	
 
 int main(int argc, char *argv[])
 {
@@ -106,6 +111,8 @@ void on_menuAbout_activate(GtkMenuItem *menuitem, app_widgets *app_wdgts){
 
 
 // newCharaterWindow dialog box and cancel button working (not x button top application)
+//--------------------------------------------------------------------------------------
+
 void on_newCharacterWindow_response(GtkDialog *dialog, gint response_id, app_widgets *app_wdgts)
 {
 	gtk_widget_hide(app_wdgts->w_newCharacterWindow);
@@ -116,8 +123,33 @@ void on_cancelBtn_clicked(GtkDialog *dialog, gint response_id, app_widgets *app_
 	gtk_widget_hide(app_wdgts->w_newCharacterWindow);
 }
 
+void on_nameGeneratorBtn_clicked(GtkDialog *dialog, gint response_id, app_widgets *app_wdgts)
+{
+	printf("Clicked generate name button.\n");
+
+	/* 	
+	 This print now all table names in command line.
+
+	 The most common first names for men in 1860-69 at Finland. 
+	 This based on https://www.tuomas.salste.net/suku/kela-etunimet.html#M1 research.
+	 The purpose of this is to initially generate one or more names for use by the program. 
+	 The lists grow over the years, so the solution needs to be developed. This first list is only 14 names long. 
+	 Maybe last list hundreds of thousands names. And Later add middle names and lastnames. 
+	*/
+
+	int i;
+	const char* etunimet[14] = {"Juho", "Kalle", "Matti", "Johan", "Antti", "Heikki", "Karl", "Frans", "Kustaa", "Pekka", "August", "Otto", "Mikko", "Jaakko"};
+
+    	for (i=0;i<14;i++) {
+
+        	printf("%s\n", etunimet[i]);
+		
+    	}
+	
+}
 
 // About dialog box close button working (not x button top application)
+//--------------------------------------------------------------------------------------
 void on_aboutWindow_response(GtkDialog *dialog, gint response_id, app_widgets *app_wdgts)
 {
 	gtk_widget_hide(app_wdgts->w_aboutWindow);
