@@ -62,7 +62,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="tooltip_text" translatable="yes">Create new character</property>
-                        <property name="label" translatable="yes" context="GTK menu item">New Character</property>
+                        <property name="label" translatable="yes" context="GTK menu item">_New Character</property>
+                        <property name="use_underline">True</property>
                         <signal name="activate" handler="on_menuCreateNewCharacter_activate" swapped="no"/>
                       </object>
                     </child>
@@ -116,12 +117,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                       </object>
                     </child>
                     <child>
+                      <object class="GtkMenuItem" id="menuSettingsWindow">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Settings</property>
+                        <signal name="activate" handler="on_menuSettingsWindow_activate" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
                       <object class="GtkImageMenuItem" id="menuQuit">
-                        <property name="label">gtk-quit</property>
+                        <property name="label">_Quit</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <signal name="activate" handler="on_menuQuit_activate" swapped="no"/>
                       </object>
                     </child>
@@ -245,11 +254,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   </object>
   <object class="GtkAboutDialog" id="aboutWindow">
     <property name="can_focus">False</property>
+    <property name="title" translatable="yes">About</property>
+    <property name="window_position">center</property>
     <property name="type_hint">dialog</property>
+    <property name="deletable">False</property>
     <property name="transient_for">window_main</property>
     <property name="program_name">Story editor</property>
     <property name="copyright" translatable="yes">(C) Tuomas Lähteenmäki 2020</property>
-    <property name="comments" translatable="yes">Story editor application developed with GTK 3.</property>
+    <property name="comments" translatable="yes">Story editor application developed with GTK 3 and C.</property>
     <property name="website">https://github.com/lahtis/StoryEditor</property>
     <property name="website_label" translatable="yes">Visit my homepage</property>
     <property name="authors">Tuomas Lähteenmäki, 2020</property>
@@ -305,6 +317,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     <property name="window_position">center</property>
     <property name="default_width">300</property>
     <property name="type_hint">normal</property>
+    <property name="deletable">False</property>
     <property name="transient_for">window_main</property>
     <signal name="response" handler="on_newCharacterWindow_response" swapped="no"/>
     <child>
@@ -429,6 +442,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                   <object class="GtkEntry" id="charcaterIdEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="editable">False</property>
                     <property name="input_purpose">digits</property>
                   </object>
                   <packing>
@@ -576,6 +590,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Select database</property>
     <property name="window_position">center</property>
+    <property name="deletable">False</property>
     <property name="attached_to">window_main</property>
     <child>
       <placeholder/>
@@ -672,6 +687,66 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
             <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkDialog" id="settingsWindow">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Settings</property>
+    <property name="default_width">320</property>
+    <property name="default_height">260</property>
+    <property name="type_hint">dialog</property>
+    <property name="transient_for">window_main</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child internal-child="vbox">
+      <object class="GtkBox">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox">
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="settingsCloseBtn">
+                <property name="label" translatable="yes" context="Cancel or close with no save button">Cancel</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_settingsCloseBtn_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="settingsSaveBtn">
+                <property name="label" translatable="yes">Save</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_settingsSaveBtn_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
         </child>
       </object>
     </child>
