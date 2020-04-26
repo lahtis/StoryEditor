@@ -1,5 +1,5 @@
 /* 
-Story Editor - Story editor application developed wiht GTK3.
+Story Editor - Story editor application developed wiht GTK3 and C.
 
 Copyright (C) (C) Tuomas Lähteenmäki, 2020
 
@@ -34,8 +34,9 @@ typedef struct {
 //------------------------------------------------------------------
 
    	GtkWidget *w_selectDatabase;
-   	GtkWidget *w_newCharacterWindow; // Pointer to new character dialog box
-	GtkWidget *w_aboutWindow; // Pointer to about dialog box
+   	GtkWidget *w_newCharacterWindow; // Pointer to new character dialog window
+	GtkWidget *w_aboutWindow; // Pointer to about dialog window
+	GtkWidget *w_settingsWindow; // Pointer to settings window
 } 	app_widgets;
 
 	
@@ -66,6 +67,7 @@ int main(int argc, char *argv[])
 	widgets->w_selectDatabase  = GTK_WIDGET(gtk_builder_get_object(builder, "selectDatabase"));
 	widgets->w_newCharacterWindow  = GTK_WIDGET(gtk_builder_get_object(builder, "newCharacterWindow"));
     	widgets->w_aboutWindow  = GTK_WIDGET(gtk_builder_get_object(builder, "aboutWindow"));
+	widgets->w_settingsWindow  = GTK_WIDGET(gtk_builder_get_object(builder, "settingsWindow"));
     	
     	gtk_builder_connect_signals(builder, widgets); // Widgets pointer are passed to all widget handler functions as the user_data parameter
 
@@ -93,6 +95,10 @@ void on_menuSelectDatabase_activate(GtkMenuItem *menuitem, app_widgets *app_wdgt
 
 void on_menuCreateNewCharacter_activate(GtkMenuItem *menuitem, app_widgets *app_wdgts){
 	gtk_widget_show(app_wdgts->w_newCharacterWindow);
+}
+
+void on_menuSettingsWindow_activate(GtkMenuItem *menuitem, app_widgets *app_wdgts){
+	gtk_widget_show(app_wdgts->w_settingsWindow);
 }
 
 
@@ -166,8 +172,17 @@ void on_closeBtn_clicked(GtkDialog *dialog, gint response_id, app_widgets *app_w
 }
 
 
+void on_settingsCloseBtn_clicked(GtkDialog *dialog, gint response_id, app_widgets *app_wdgts)
+{
+	printf("Settings cancel button clicked.\n");
+	gtk_widget_hide(app_wdgts->w_settingsWindow);
+}
 
+void on_settingsSaveBtn_clicked(GtkDialog *dialog, gint response_id, app_widgets *app_wdgts)
+{
+	printf("Settings save button clicked.\n");
 
+}
 
 //--------------------------------------------------------------------------------------
 // OTHERS
