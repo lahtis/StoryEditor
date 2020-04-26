@@ -88,10 +88,6 @@ void x(GtkButton *button, app_widgets *app_wdgts){ }
 // MENU ITEMS ACTIVATE
 
 
-void on_menuSelectDatabase_activate(GtkMenuItem *menuitem, app_widgets *app_wdgts){
-	gtk_widget_show(app_wdgts->w_selectDatabase);
-}
-
 
 void on_menuCreateNewCharacter_activate(GtkMenuItem *menuitem, app_widgets *app_wdgts){
 	gtk_widget_show(app_wdgts->w_newCharacterWindow);
@@ -217,8 +213,25 @@ void on_editStoryDatabase_clicked(GtkDialog *dialog, gint response_id, app_widge
 	printf("Edit selected database, clicked edit button.\n");
 }
 
+void on_globalSettingsBtn_clicked(GtkDialog *dialog, gint response_id, app_widgets *app_wdgts) 
+{
+	printf("Toolbar global settings button pressed.\n");
+} 
 
+void on_selectDatabase_clicked(GtkDialog *dialog, gint response_id, app_widgets *app_wdgts) 
+{
+	printf("Toolbar database button pressed.\n");
+} 
 
+void on_globalShortcutsBtn_clicked(GtkDialog *dialog, gint response_id, app_widgets *app_wdgts) 
+{
+	printf("Toolbar shortcuts button pressed.\n");
+} 
+
+void on_nameGeneratorBt_clicked(GtkDialog *dialog, gint response_id, app_widgets *app_wdgts) 
+{
+	printf("Toolbar name generator button pressed.\n");
+} 
 
 // called when window is closed
 void on_window_main_destroy()
