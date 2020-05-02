@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 	widgets->w_selectDatabase  = GTK_WIDGET(gtk_builder_get_object(builder, "selectDatabase"));
 	widgets->w_newCharacterWindow  = GTK_WIDGET(gtk_builder_get_object(builder, "newCharacterWindow"));
     	widgets->w_aboutWindow  = GTK_WIDGET(gtk_builder_get_object(builder, "aboutWindow"));
-	widgets->w_settingsWindow  = GTK_WIDGET(gtk_builder_get_object(builder, "settingsWindow"));
+	widgets->w_settingsWindow = GTK_WIDGET(gtk_builder_get_object(builder, "settingsWindow"));
     	
     	gtk_builder_connect_signals(builder, widgets); // Widgets pointer are passed to all widget handler functions as the user_data parameter
 
@@ -168,13 +168,13 @@ void on_closeBtn_clicked(GtkDialog *dialog, gint response_id, app_widgets *app_w
 }
 
 
-void on_settingsCloseBtn_clicked(GtkDialog *dialog, gint response_id, app_widgets *app_wdgts)
+void on_settingsCloseBtn1_clicked(GtkDialog *dialog, gint response_id, app_widgets *app_wdgts)
 {
 	printf("Settings cancel button clicked.\n");
 	gtk_widget_hide(app_wdgts->w_settingsWindow);
 }
 
-void on_settingsSaveBtn_clicked(GtkDialog *dialog, gint response_id, app_widgets *app_wdgts)
+void on_settingsSaveBtn1_clicked(GtkDialog *dialog, gint response_id, app_widgets *app_wdgts)
 {
 	printf("Settings save button clicked.\n");
 
@@ -238,3 +238,4 @@ void on_window_main_destroy()
 {
 	gtk_main_quit();
 }
+
