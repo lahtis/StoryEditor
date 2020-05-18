@@ -25,6 +25,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <sqlite3.h>
 #include <gtk/gtk.h>
 
+#define NUM_WORDS  1   // how many names generated.
+
+int lineCounter(char filelines[]);  // Count how many lines are txt files.
+char rmaleName(int nline);
+char commonfamilyNames();
+
 //------------------------------------------------------------------
 // Custom structure that holds pointers to widgets and user variables
 
@@ -43,7 +49,7 @@ typedef struct {
 
 int main(int argc, char *argv[])
 {
-
+	
     	GtkBuilder      *builder; 
     	GtkWidget       *window;
     	app_widgets     *widgets = g_slice_new(app_widgets); // Instantiate structure, allocating memory for it
@@ -68,11 +74,12 @@ int main(int argc, char *argv[])
 	widgets->w_newCharacterWindow  = GTK_WIDGET(gtk_builder_get_object(builder, "newCharacterWindow"));
     	widgets->w_aboutWindow  = GTK_WIDGET(gtk_builder_get_object(builder, "aboutWindow"));
 	widgets->w_settingsWindow = GTK_WIDGET(gtk_builder_get_object(builder, "settingsWindow"));
+
     	
     	gtk_builder_connect_signals(builder, widgets); // Widgets pointer are passed to all widget handler functions as the user_data parameter
 
     	g_object_unref(builder);
-
+	
     	gtk_widget_show(window);                
     	gtk_main();
     	g_slice_free(app_widgets, widgets); // Free up widget structure memory
@@ -129,30 +136,55 @@ void on_nameGeneratorBtn_clicked(GtkDialog *dialog, gint response_id, app_widget
 {
 	printf("Clicked generate name button.\n");
 
-	/* 	
-	 This print now all table names in command line.
-
-	 The most common first names for men in 1860-69 at Finland. 
-	 This based on https://www.tuomas.salste.net/suku/kela-etunimet.html#M1 research.
-	 The purpose of this is to initially generate one or more names for use by the program. 
-	 The lists grow over the years, so the solution needs to be developed. This first list is only 14 names long. 
-	 Maybe last list hundreds of thousands names. And Later add middle names and lastnames. 
-	*/
-
-	int i;
-	// The most 14 common first names for men in 1860-69 at Finland.
-	const char* firstnamesMen[14] = {"Juho", "Kalle", "Matti", "Johan", "Antti", "Heikki", "Karl", "Frans", "Kustaa", "Pekka", "August", "Otto", "Mikko", "Jaakko"};
-	// The most 2 common middle names for men in 1860-69 at Finland.
-	// const char* middlenamesMen[2] = {"Kustaa", "Vihtori",};
-		
-	// The most 50 common family names is 1939–1958 at Finland.
-	// const char* lastnames[50] = { "Virtanen", "Nieminen", "Mäkinen", "Laine", "Korhonen", "Koskinen", "Järvinen", "Mäkelä", "Hämäläinen", "Lehtinen", "Lehtonen", "Salminen", "Heinonen", "Saarinen", "Niemi", "Tuominen", "Salonen", "Heikkinen", "Rantanen", "Salo", "Jokinen", "Aaltonen", "Laitinen", "Turunen", "Johansson", "Lahtinen", "Heikkilä", "Laaksonen", "Karjalainen", "Kinnunen", "Ahonen", "Savolainen", "Laakso", "Toivonen", "Mattila", "Miettinen", "Leppänen", "Aalto", "Nurmi", "Hiltunen", "Lehto", "Leinonen", "Peltonen", "Väisänen", "Kallio", "Hakala", "Lindholm", "Ojala", "Manninen", "Karlsson",};
+    	time_t t;
 	
-    	for (i=0;i<14;i++) {
+	int nline = lineCounter("names.txt"); 
+	
 
-        	printf("%s\n", firstnamesMen[i]);
-		
+    	// Open words file 
+    	FILE *fp = fopen("names.txt", "r");
+
+    	if (fp == NULL) {
+        	perror("Unable to locate word list");
+        	exit(EXIT_FAILURE);
     	}
+
+    	
+    	// fseek(fp, 0, SEEK_SET);  // Return the beginner of the file
+
+
+    	// Count words in file 
+    	char word[nline];
+    	long wc = 0;
+    	while (fgets(word, sizeof word, fp) != NULL) {
+            ++wc;
+    	}
+
+    	// Store random words in array 
+    	char randwords[NUM_WORDS][nline];
+    	srand((unsigned)time(&t));
+    	for (size_t i = 0; i < NUM_WORDS; i++) {
+             rewind(fp);
+        	int sel = rand() % wc + 1;
+        	for (int j = 0; j < sel; j++) {
+            	if (fgets(word, sizeof word, fp) == NULL) {
+                	perror("Error in fgets()");
+            	}
+        	}
+        	strcpy(randwords[i], word);
+    	}
+
+    	if (fclose(fp) != 0) {
+        perror("Unable to close file");
+    	}
+    	fclose(fp);
+
+    	// Display results 
+    	for (size_t i = 0; i < NUM_WORDS; i++) {
+        	printf("%s", randwords[i]);
+    	}
+	
+
 	
 }
 
@@ -239,3 +271,105 @@ void on_window_main_destroy()
 	gtk_main_quit();
 }
 
+int lineCounter(char filelines[]) 
+{
+	int nline=0;
+	
+	/* Open words file */
+	
+    	FILE *fp = fopen(filelines, "r");
+
+    	if (fp == NULL) {
+        	perror("Unable to locate word list");
+        	exit(EXIT_FAILURE);
+    	}
+
+    	int c = getc(fp);
+    	while (c != EOF){	
+ 	    c = getc(fp);
+            if (c== '\n')
+               nline++;
+    	}
+	fclose(fp);
+	return nline;
+}
+
+char rmaleName(int nline) 
+{
+   	time_t t;
+	
+
+    	/* Open words file */
+    	FILE *fp = fopen("names.txt", "r");
+
+    	if (fp == NULL) {
+        	perror("Unable to locate word list");
+        	exit(EXIT_FAILURE);
+    	}
+
+    	
+        fseek(fp, 0, SEEK_SET);  // Return the beginner of the file
+
+    	/* Count words in file */
+    	char word[nline];
+    	long wc = 0;
+    	while (fgets(word, sizeof word, fp) != NULL) {
+            ++wc;
+    	}
+
+    	/* Store random words in array */
+    	char randwords[NUM_WORDS][nline];
+    	srand((unsigned)time(&t));
+    	for (size_t i = 0; i < NUM_WORDS; i++) {
+             rewind(fp);
+        	int sel = rand() % wc + 1;
+        	for (int j = 0; j < sel; j++) {
+            	if (fgets(word, sizeof word, fp) == NULL) {
+                	perror("Error in fgets()");
+            	}
+        	}
+        	strcpy(randwords[i], word);
+    	}
+
+    	if (fclose(fp) != 0) {
+        perror("Unable to close file");
+    	}
+    	fclose(fp);
+
+    	/* Display results */
+    	for (size_t i = 0; i < NUM_WORDS; i++) {
+        	printf("%s", randwords[i]);
+	
+    	}
+	return 0;
+}
+
+char commonfamilyNames() 
+{
+	 /* 	
+	 This print now all table names in command line.
+
+	 The most common first names for men in 1860-69 at Finland. 
+	 This based on https://www.tuomas.salste.net/suku/kela-etunimet.html#M1 research.
+	 The purpose of this is to initially generate one or more names for use by the program. 
+	 The lists grow over the years, so the solution needs to be developed. This first list is only 14 names long. 
+	 Maybe last list hundreds of thousands names. And Later add middle names and lastnames. 
+	 */
+
+	int i;
+	// The most 14 common first names for men in 1860-69 at Finland.
+	// const char* firstnamesMen[14] = {"Juho", "Kalle", "Matti", "Johan", "Antti", "Heikki", "Karl", "Frans", "Kustaa", "Pekka", "August", "Otto", "Mikko", "Jaakko"};
+
+	// The most 2 common middle names for men in 1860-69 at Finland.
+	 // const char* middlenamesMen[2] = {"Kustaa", "Vihtori"};
+		
+	// The most 50 common family names is 1939–1958 at Finland.
+	const char* lastnames[50] = { "Virtanen", "Nieminen", "Mäkinen", "Laine", "Korhonen", "Koskinen", "Järvinen", "Mäkelä", "Hämäläinen", "Lehtinen", "Lehtonen", "Salminen", "Heinonen", "Saarinen", "Niemi", "Tuominen", "Salonen", "Heikkinen", "Rantanen", "Salo", "Jokinen", "Aaltonen", "Laitinen", "Turunen", "Johansson", "Lahtinen", "Heikkilä", "Laaksonen", "Karjalainen", "Kinnunen", "Ahonen", "Savolainen", "Laakso", "Toivonen", "Mattila", "Miettinen", "Leppänen", "Aalto", "Nurmi", "Hiltunen", "Lehto", "Leinonen", "Peltonen", "Väisänen", "Kallio", "Hakala", "Lindholm", "Ojala", "Manninen", "Karlsson"};
+	
+    	for (i=0;i<14;i++) {
+
+        	printf("%s\n", lastnames[i]);
+		
+    	}
+	return 0;
+ }
