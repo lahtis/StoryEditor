@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #define NUM_WORDS  1   // how many names generated.
 
-int lineCounter(char filelines[]);  // Count how many lines are txt files.
+int lineCounter(char filename[]);  // Count how many lines are txt files.
 char rmaleName(int nline);
 char commonfamilyNames();
 
@@ -271,13 +271,13 @@ void on_window_main_destroy()
 	gtk_main_quit();
 }
 
-int lineCounter(char filelines[]) 
+int lineCounter(char filename[]) 
 {
 	int nline=0;
 	
 	/* Open words file */
 	
-    	FILE *fp = fopen(filelines, "r");
+    	FILE *fp = fopen(filename, "r");
 
     	if (fp == NULL) {
         	perror("Unable to locate word list");
